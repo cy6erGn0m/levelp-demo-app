@@ -1,11 +1,17 @@
 package ru.levelp.myapp.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = Part.SEARCH_BY_PART_ID, query = "from Part where partId = :partId")
+})
 public class Part {
+    public static final String SEARCH_BY_PART_ID = "MyQuery";
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "part_id", unique = true, nullable = false)
@@ -14,14 +20,17 @@ public class Part {
     @Column
     private String title;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Supplier supplier;
+
+    @Column
+    private boolean legacy;
 
     public Part() {
     }
 
     public Part(String partId, String title) {
-        this.partId = partId;
+        setPartId(partId);
         this.title = title;
     }
 
@@ -38,6 +47,9 @@ public class Part {
     }
 
     public void setPartId(String partId) {
+        if (partId == null) throw new IllegalArgumentException("partId shouldn't be null");
+        if (partId.length() < 3) throw new IllegalArgumentException("partId shouldn't be empty");
+
         this.partId = partId;
     }
 
@@ -55,5 +67,30 @@ public class Part {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public boolean isLegacy() {
+        return legacy;
+    }
+
+    public void setLegacy(boolean legacy) {
+        this.legacy = legacy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Part part = (Part) o;
+        return id == part.id &&
+                legacy == part.legacy &&
+                Objects.equals(partId, part.partId) &&
+                Objects.equals(title, part.title) &&
+                Objects.equals(supplier, part.supplier);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, partId, legacy, title, supplier);
     }
 }

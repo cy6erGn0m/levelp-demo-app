@@ -1,19 +1,21 @@
 package ru.levelp.myapp.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Supplier {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
     private String name;
 
-    @OneToMany
-    private List<Part> parts;
+    @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    private List<Part> parts = new ArrayList<Part>();
 
     public int getId() {
         return id;
@@ -37,5 +39,19 @@ public class Supplier {
 
     public void setParts(List<Part> parts) {
         this.parts = parts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Supplier supplier = (Supplier) o;
+        return id == supplier.id &&
+                Objects.equals(name, supplier.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

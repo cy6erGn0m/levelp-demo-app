@@ -7,7 +7,9 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class PartsTest {
@@ -49,17 +51,47 @@ public class PartsTest {
 
         em.getTransaction().begin();
         try {
-            em.persist(s);
             em.persist(part);
+            em.getTransaction().commit();
         } catch (Throwable t) {
             em.getTransaction().rollback();
             throw t;
-        } finally {
-            em.getTransaction().commit();
         }
 
         Part found = em.find(Part.class, part.getId());
         assertNotNull(found);
         assertNotNull(found.getSupplier());
+    }
+
+    @Test
+    public void testQuery() throws Throwable {
+        testCreatePartWithSupplier();
+
+        String searchString = "0000-1";
+
+        @SuppressWarnings("unchecked")
+        List<Part> parts = em.createQuery("from Part where partId = :partId")
+                .setParameter("partId", searchString)
+                .getResultList();
+
+        assertEquals(1, parts.size());
+        Part found = parts.get(0);
+        assertEquals(searchString, found.getPartId());
+    }
+
+    @Test
+    public void testNamedQuery() throws Throwable {
+        testCreatePartWithSupplier();
+
+        String searchString = "0000-1";
+
+        @SuppressWarnings("unchecked")
+        List<Part> parts = em.createNamedQuery(Part.SEARCH_BY_PART_ID)
+                .setParameter("partId", searchString)
+                .getResultList();
+
+        assertEquals(1, parts.size());
+        Part found = parts.get(0);
+        assertEquals(searchString, found.getPartId());
     }
 }
