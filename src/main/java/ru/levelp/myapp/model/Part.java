@@ -20,7 +20,7 @@ public class Part {
     @Column
     private String title;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     private Supplier supplier;
 
     @Column

@@ -14,8 +14,8 @@ public class Supplier {
     @Column
     private String name;
 
-    @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-    private List<Part> parts = new ArrayList<Part>();
+    @OneToMany(mappedBy = "supplier", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    private List<Part> parts = new ArrayList<>();
 
     public int getId() {
         return id;
