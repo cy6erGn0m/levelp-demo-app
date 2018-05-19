@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="indexBean" type="ru.levelp.myapp.web.IndexBean" scope="application"/>
+<jsp:useBean id="indexBean" type="ru.levelp.myapp.web.IndexBean" scope="request"/>
 <html>
 <head>
     <title>Title</title>

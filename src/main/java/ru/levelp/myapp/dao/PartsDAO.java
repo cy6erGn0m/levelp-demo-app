@@ -1,15 +1,18 @@
 package ru.levelp.myapp.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.levelp.myapp.model.Part;
 import ru.levelp.myapp.model.Supplier;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Component
 public class PartsDAO {
     private final EntityManager em;
 
-    public PartsDAO(EntityManager em) {
+    public PartsDAO(@Autowired EntityManager em) {
         this.em = em;
     }
 
