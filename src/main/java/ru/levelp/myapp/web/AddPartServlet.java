@@ -1,6 +1,7 @@
 package ru.levelp.myapp.web;
 
 import ru.levelp.myapp.dao.PartsDAO;
+import ru.levelp.myapp.model.Part;
 import ru.levelp.myapp.model.Supplier;
 
 import javax.servlet.ServletException;
@@ -21,11 +22,12 @@ public class AddPartServlet extends HttpServlet {
         PartsDAO dao = (PartsDAO) getServletContext().getAttribute("partsDAO");
         AddPartBean addPartBean = (AddPartBean) getServletContext().getAttribute("addPartBean");
 
+        Part part;
         dao.getEm().getTransaction().begin();
         try {
             Supplier supplier = addPartBean.findSupplier(Integer.parseInt(supplierId));
 
-            dao.createPart(partId, title, supplier);
+            part = dao.createPart(partId, title, supplier);
             dao.getEm().getTransaction().commit();
         } catch (Throwable t) {
             dao.getEm().getTransaction().rollback();
@@ -35,6 +37,10 @@ public class AddPartServlet extends HttpServlet {
             return;
         }
 
-        resp.sendRedirect("/");
+        AddPartCompleteBean bean = new AddPartCompleteBean(part.getPartId(),
+                part.getTitle(), part.getSupplier().getName());
+
+        req.setAttribute("bean", bean);
+        req.getRequestDispatcher("/addPartComplete.jsp").forward(req, resp);
     }
 }
