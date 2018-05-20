@@ -11,5 +11,9 @@
     <p>Title: ${bean.title}</p>
     <p>Supplier: ${bean.supplierName}</p>
 </div>
+
+<p>
+    <a href="/">Home</a>
+</p>
 </body>
 </html>

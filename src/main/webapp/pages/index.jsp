@@ -42,7 +42,7 @@
     </table>
 
     <p>
-        <a href="addPart.jsp">Add part...</a>
+        <a href="/add-part">Add part...</a>
     </p>
 </div>
 </body>

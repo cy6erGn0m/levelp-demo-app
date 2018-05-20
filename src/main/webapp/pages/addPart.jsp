@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="addPartBean" type="ru.levelp.myapp.web.AddPartBean" scope="application" />
+<jsp:useBean id="addPartBean" type="ru.levelp.myapp.web.AddPartBean" scope="request" />
 <html>
 <head>
     <title>Add part</title>
