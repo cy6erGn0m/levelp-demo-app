@@ -23,7 +23,6 @@ public class AddPartController {
                               @RequestParam String title,
                               @RequestParam int supplierId,
                               ModelMap model) {
-
         Part part;
         dao.getEm().getTransaction().begin();
         try {

@@ -29,6 +29,11 @@ public class PartsDAO {
         return part;
     }
 
+    public boolean hasSuppliers() {
+        return ((Integer) em.createQuery("select count(id) from Supplier")
+                .getSingleResult()) > 0;
+    }
+
     public Supplier createSupplier(String name) {
         Supplier supplier = new Supplier();
         supplier.setName(name);

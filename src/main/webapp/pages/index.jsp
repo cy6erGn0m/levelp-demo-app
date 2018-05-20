@@ -8,6 +8,20 @@
 <body>
 <h1>Hello!</h1>
 
+<div>
+    <p>
+        <c:choose>
+            <c:when test="${not empty userName}">
+                Hello, ${userName}!
+                <a href="/logout">Logout</a>
+            </c:when>
+            <c:otherwise>
+                <a href="/login">Login</a>
+            </c:otherwise>
+        </c:choose>
+    </p>
+</div>
+
 <p>${header['User-Agent']}</p>
 
 <div>
@@ -27,7 +41,9 @@
         </tbody>
     </table>
 
-    <a href="addPart.jsp">Add part...</a>
+    <p>
+        <a href="addPart.jsp">Add part...</a>
+    </p>
 </div>
 </body>
 </html>
