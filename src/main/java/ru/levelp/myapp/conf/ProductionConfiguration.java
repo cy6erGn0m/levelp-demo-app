@@ -4,6 +4,7 @@ package ru.levelp.myapp.conf;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -21,16 +22,11 @@ import javax.persistence.PersistenceContext;
 @ComponentScan("ru.levelp.myapp")
 @EnableWebMvc
 @EnableTransactionManagement
+@EnableJpaRepositories(value = "ru.levelp.myapp.dao")
 public class ProductionConfiguration {
     @Bean
-    public EntityManagerFactory getEntityManagerFactory() {
+    public EntityManagerFactory entityManagerFactory() {
         return Persistence.createEntityManagerFactory("ProductionPersistenceUnit");
-    }
-
-    @Bean
-    @PersistenceContext
-    public EntityManager getEntityManager(EntityManagerFactory emf) {
-        return emf.createEntityManager();
     }
 
     @Bean
@@ -45,7 +41,7 @@ public class ProductionConfiguration {
     }
 
     @Bean
-    public PlatformTransactionManager getTransactionManager(EntityManagerFactory emf) {
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
     }
 }

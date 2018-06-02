@@ -17,18 +17,13 @@ import javax.persistence.Persistence;
 @EnableWebMvc
 @EnableTransactionManagement
 public class TestConfiguration {
-    @Bean
+    @Bean("entityManagerFactory")
     public EntityManagerFactory getEntityManagerFactory() {
         return Persistence.createEntityManagerFactory("TestPersistenceUnit");
     }
 
-    @Bean
-    public EntityManager getEntityManager(EntityManagerFactory emf) {
-        return emf.createEntityManager();
-    }
-
-    @Bean
-    public PlatformTransactionManager getTransactionManager(EntityManagerFactory emf) {
-        return new JpaTransactionManager(emf);
-    }
+//    @Bean("transactionManager")
+//    public PlatformTransactionManager getTransactionManager(EntityManagerFactory emf) {
+//        return new JpaTransactionManager(emf);
+//    }
 }

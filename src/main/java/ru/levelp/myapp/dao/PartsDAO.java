@@ -16,6 +16,12 @@ public class PartsDAO {
     @PersistenceContext
     private EntityManager em;
 
+    @Autowired
+    private PartsRepository repository;
+
+    @Autowired
+    private SupplierRepository supplierRepository;
+
     public Part findByPrimaryKey(int id) {
         return em.find(Part.class, id);
     }
@@ -36,8 +42,7 @@ public class PartsDAO {
     }
 
     public boolean hasSuppliers() {
-        return ((Long) em.createQuery("select count(id) from Supplier")
-                .getSingleResult()) > 0;
+        return supplierRepository.count() > 0;
     }
 
     @Transactional
@@ -61,15 +66,11 @@ public class PartsDAO {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public List<Part> findByPartId(String partId) {
-        return em.createNamedQuery(Part.SEARCH_BY_PART_ID)
-                .setParameter("partId", partId)
-                .getResultList();
+        return repository.findByPartId(partId);
     }
 
-    @SuppressWarnings("unchecked")
     public List<Part> findAllParts() {
-        return em.createQuery("from Part").getResultList();
+        return repository.findAll();
     }
 }

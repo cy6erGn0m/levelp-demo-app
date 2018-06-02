@@ -4,12 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = Part.SEARCH_BY_PART_ID, query = "from Part where partId = :partId")
-})
 public class Part {
-    public static final String SEARCH_BY_PART_ID = "MyQuery";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
