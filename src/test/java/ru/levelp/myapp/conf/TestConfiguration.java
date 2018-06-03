@@ -22,8 +22,8 @@ public class TestConfiguration {
         return Persistence.createEntityManagerFactory("TestPersistenceUnit");
     }
 
-//    @Bean("transactionManager")
-//    public PlatformTransactionManager getTransactionManager(EntityManagerFactory emf) {
-//        return new JpaTransactionManager(emf);
-//    }
+    @Bean("transactionManager")
+    public PlatformTransactionManager getTransactionManager(EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
 }
