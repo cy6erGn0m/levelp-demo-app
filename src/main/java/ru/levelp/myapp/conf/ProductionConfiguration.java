@@ -11,6 +11,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -25,7 +27,12 @@ import javax.persistence.PersistenceContext;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories(value = "ru.levelp.myapp.dao")
-public class ProductionConfiguration {
+public class ProductionConfiguration extends WebMvcConfigurerAdapter {
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("scripts/**").addResourceLocations("/scripts/");
+    }
+
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         return Persistence.createEntityManagerFactory("ProductionPersistenceUnit");

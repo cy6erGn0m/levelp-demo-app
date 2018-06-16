@@ -4,6 +4,8 @@
 <html>
 <head>
     <title>Title</title>
+
+    <script src="/scripts/index.js" type="text/javascript"></script>
 </head>
 <body>
 <h1>Hello!</h1>
@@ -22,11 +24,13 @@
     </p>
 </div>
 
-<p>${header['User-Agent']}</p>
-
+<div>
+    <input type="text" id="searchField">
+    <button onclick="onSearch()">Search</button>
+</div>
 <div>
     <table>
-        <tbody>
+        <tbody id="resultsTable">
 
         <c:forEach var="part" items="${indexBean.parts}">
             <tr>
