@@ -42,7 +42,7 @@
     </table>
 
     <p>
-        <a href="/add-part">Add part...</a>
+        <a href="/admin/add-part">Add part...</a>
     </p>
 </div>
 </body>

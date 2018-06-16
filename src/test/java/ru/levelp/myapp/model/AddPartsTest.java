@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = TestConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WebAppConfiguration
-public class IndexPageTest {
+public class AddPartsTest {
     @Autowired
     private PartsDAO dao;
 
@@ -50,38 +50,36 @@ public class IndexPageTest {
     }
 
     @Test
-    public void testIndexPage() throws Exception {
-        dao.createInitialData();
-
-        mock.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("indexBean"))
-                .andExpect(model().attribute("userName", new BaseMatcher<String>() {
-                    @Override
-                    public boolean matches(Object o) {
-                        return o == null;
-                    }
-
-                    @Override
-                    public void describeTo(Description description) {
-                        description.appendText("user shouldn' be set");
-                    }
-                })).andReturn();
-    }
-
-    @Test
-    public void testIndexPageLoggedIn() throws Exception {
+    public void testAddPartsAnonymous() throws Exception {
         dao.createInitialData();
 
         mock.perform(MockMvcRequestBuilders
-                .get("/").with(
-                        user("someUser").password("test").roles("USER")
+                .get("/admin/add-part"))
+
+                .andExpect(status().is3xxRedirection()).andReturn();
+    }
+
+    @Test
+    public void testAddPartsUserRole() throws Exception {
+        dao.createInitialData();
+
+        mock.perform(MockMvcRequestBuilders
+                .get("/admin/add-part").with(
+                        user("user").password("...").roles("USER")
                 ))
 
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("indexBean"))
-                .andExpect(model().attribute("userName", "someUser")).andReturn();
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
+    @Test
+    public void testAddPartsAdminRole() throws Exception {
+        dao.createInitialData();
+
+        mock.perform(MockMvcRequestBuilders
+                .get("/admin/add-part").with(
+                        user("admin").password("...").roles("ADMIN")
+                ))
+
+                .andExpect(status().isOk()).andReturn();
     }
 }

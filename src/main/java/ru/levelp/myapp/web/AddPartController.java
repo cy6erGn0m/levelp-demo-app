@@ -20,23 +20,19 @@ public class AddPartController {
     @Autowired
     private AddPartBean bean;
 
-    @GetMapping(path = "/add-part")
+    @GetMapping(path = "/admin/add-part")
     public String addPartPage(HttpSession session, ModelMap model) {
-        if (ensureLoggedIn(session)) return "redirect:/";
-
         model.addAttribute("addPartBean", bean);
 
         return "addPart";
     }
 
-    @RequestMapping(path = "/add-part", method = RequestMethod.POST)
+    @RequestMapping(path = "/admin/add-part", method = RequestMethod.POST)
     public String postAddPart(@RequestParam String partId,
                               @RequestParam String title,
                               @RequestParam("supplier") int supplierId,
                               ModelMap model,
                               HttpSession session) {
-
-        if (ensureLoggedIn(session)) return "redirect:/";
 
         Part part;
         try {
@@ -55,12 +51,5 @@ public class AddPartController {
         model.addAttribute("bean", bean);
 
         return "addPartComplete";
-    }
-
-    private static boolean ensureLoggedIn(HttpSession session) {
-        if (session.getAttribute("userName") == null) {
-            return true;
-        }
-        return false;
     }
 }

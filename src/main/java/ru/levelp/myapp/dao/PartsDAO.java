@@ -1,6 +1,7 @@
 package ru.levelp.myapp.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levelp.myapp.model.Part;
@@ -32,6 +33,7 @@ public class PartsDAO {
     }
 
     @Transactional
+    @Secured("ADMIN")
     public Part createPart(String partId, String title, Supplier supplier) {
         Part part = new Part(partId, title);
         part.setSupplier(supplier);
@@ -46,6 +48,7 @@ public class PartsDAO {
     }
 
     @Transactional
+    @Secured("ADMIN")
     public Supplier createSupplier(String name) {
         Supplier supplier = new Supplier();
         supplier.setName(name);
